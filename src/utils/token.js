@@ -1,6 +1,6 @@
 import CryptoJS from "crypto-js";
 
-const SECRET = "Empl0yEE_D@shb0@rd";
+const SECRET = process.env.REACT_APP_SESSION_SECRET;
 
 export const setToken = (token) => {
   localStorage.setItem("token", token);
@@ -16,6 +16,8 @@ export const removeToken = () => {
 
 export const decodeToken = () => {
   try {
+    if (!SECRET) return null;
+
     const token = getToken();
     if (!token) return null;
 
@@ -26,6 +28,21 @@ export const decodeToken = () => {
   } catch (err) {
     return null;
   }
+};
+
+export const createSessionToken = (user) => {
+  if (!SECRET) {
+    throw new Error("Missing REACT_APP_SESSION_SECRET");
+  }
+
+  return CryptoJS.AES.encrypt(
+    JSON.stringify({
+      id: user.id,
+      email: user.Email,
+      time: Date.now(),
+    }),
+    SECRET
+  ).toString();
 };
 
 export const isAuthenticated = () => {

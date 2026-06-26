@@ -1,38 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Alert, Card, Form, Input, Button, message } from "antd";
-import { loginUser } from "../api/auth";
-import { AuthContext } from "../context/AuthContext";
+import React, { useContext, useState } from "react";
+import { Alert, Button, Card, Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { getToken } from "../utils/token";
+import { addEmployee } from "../api/employee";
+import { AuthContext } from "../context/AuthContext";
+import { createSessionToken } from "../utils/token";
 
-const Login = () => {
+const Signup = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const token = getToken();
-
-  useEffect(() => {
-    if (token) {
-      navigate("/dashboard");
-    }
-  }, [navigate, token]);
 
   const onFinish = async (values) => {
     try {
       setLoading(true);
       setError("");
 
-      const res = await loginUser(values);
+      const res = await addEmployee(values);
+      const token = createSessionToken(res.data);
 
-      login(res.token);
-
-      message.success("Login successful");
-
+      login(token);
+      message.success("Signup successful");
       navigate("/dashboard");
     } catch (err) {
-      setError("Login failed. Please check your email and password.");
-      message.error("Login failed");
+      setError("Unable to create your account. Please try again.");
+      message.error("Signup failed");
     } finally {
       setLoading(false);
     }
@@ -40,7 +32,7 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      <Card title="Employee Login" className="login-card">
+      <Card title="Create Account" className="login-card">
         {error && (
           <Alert
             className="login-alert"
@@ -54,32 +46,43 @@ const Login = () => {
 
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item
+            label="Name"
+            name="EmployeeName"
+            rules={[{ required: true, message: "Enter your name" }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
             label="Email"
-            name="email"
-            rules={[{ required: true, message: "Enter email" }]}
+            name="Email"
+            rules={[
+              { required: true, message: "Enter email" },
+              { type: "email", message: "Enter a valid email" },
+            ]}
           >
             <Input />
           </Form.Item>
 
           <Form.Item
             label="Password"
-            name="password"
+            name="Password"
             rules={[{ required: true, message: "Enter password" }]}
           >
             <Input.Password />
           </Form.Item>
 
           <Button type="primary" htmlType="submit" loading={loading} block>
-            Login
+            Sign Up
           </Button>
         </Form>
 
         <p className="auth-switch">
-          New user? <Link to="/signup">Create an account</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </p>
       </Card>
     </div>
   );
 };
 
-export default Login;
+export default Signup;

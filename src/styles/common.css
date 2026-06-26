@@ -1,0 +1,132 @@
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-content {
+  padding: 24px;
+}
+
+.dashboard-alert,
+.employee-alert,
+.login-alert {
+  margin-bottom: 16px;
+}
+
+.dashboard-tabs .ant-tabs-nav {
+  justify-content: flex-start;
+  margin-bottom: 24px;
+}
+
+.dashboard-tabs .ant-tabs-nav::before {
+  border-bottom: 0;
+}
+
+.dashboard-tabs .ant-tabs-nav-list {
+  background: #f0f2f5;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.dashboard-tabs .ant-tabs-tab {
+  border-radius: 6px;
+  margin: 0;
+  padding: 9px 18px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dashboard-tabs .ant-tabs-tab + .ant-tabs-tab {
+  margin-left: 4px;
+}
+
+.dashboard-tabs .ant-tabs-tab-active {
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-tabs .ant-tabs-ink-bar {
+  display: none;
+}
+
+.dashboard-tabs .ant-tabs-tab-btn span {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+}
+
+.centered-state {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 280px;
+}
+
+.navbar-header {
+  align-items: center;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 9;
+}
+
+.navbar-brand {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.navbar-brand h2 {
+  margin: 0;
+}
+
+.navbar-logo {
+  display: block;
+  height: 36px;
+  object-fit: contain;
+  width: 36px;
+}
+
+.login-page {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+.login-card {
+  width: 350px;
+}
+
+.auth-switch {
+  margin: 16px 0 0;
+  text-align: center;
+}
+
+.employee-filters {
+  margin-bottom: 20px;
+  width: 50%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.table-action-button {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.charts-row {
+  margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+  .employee-filters {
+    width: 100%;
+  }
+}

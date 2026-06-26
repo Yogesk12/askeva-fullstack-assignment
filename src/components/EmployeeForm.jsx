@@ -1,14 +1,37 @@
 import React, { useEffect } from "react";
-import { Modal, Form, Input, Select } from "antd";
+import { DatePicker, Modal, Form, Input, Select } from "antd";
+import dayjs from "dayjs";
 
-const EmployeeForm = ({ open, onCancel, onSubmit, initialValues }) => {
+const getDateValue = (value) => {
+  if (!value) return null;
+
+  if (dayjs.isDayjs(value)) return value;
+
+  if (typeof value === "number") {
+    const timestamp = value > 9999999999 ? value : value * 1000;
+    return dayjs(timestamp);
+  }
+
+  return dayjs(value);
+};
+
+const EmployeeForm = ({
+  open,
+  onCancel,
+  onSubmit,
+  initialValues,
+  confirmLoading,
+}) => {
   const [form] = Form.useForm();
 
  
   useEffect(() => {
     if (open) {
       if (initialValues) {
-        form.setFieldsValue(initialValues);
+        form.setFieldsValue({
+          ...initialValues,
+          JoiningDate: getDateValue(initialValues.JoiningDate),
+        });
       } else {
         form.resetFields();
       }
@@ -20,13 +43,25 @@ const EmployeeForm = ({ open, onCancel, onSubmit, initialValues }) => {
       open={open}
       title={initialValues ? "Edit Employee" : "Add Employee"}
       destroyOnClose
+      confirmLoading={confirmLoading}
       onCancel={() => {
         form.resetFields();
         onCancel();
       }}
       onOk={() => form.submit()}
     >
-      <Form form={form} layout="vertical" onFinish={onSubmit}>
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={(values) =>
+          onSubmit({
+            ...values,
+            JoiningDate: values.JoiningDate
+              ? values.JoiningDate.startOf("day").unix()
+              : undefined,
+          })
+        }
+      >
         <Form.Item name="EmployeeName" label="Name" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
@@ -51,7 +86,7 @@ const EmployeeForm = ({ open, onCancel, onSubmit, initialValues }) => {
         </Form.Item>
 
         <Form.Item name="JoiningDate" label="Joining Date">
-          <Input />
+          <DatePicker className="full-width" format="DD MMM YYYY" />
         </Form.Item>
       </Form>
     </Modal>

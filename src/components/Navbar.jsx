@@ -2,6 +2,7 @@ import { Layout, Button } from "antd";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { removeToken } from "../utils/token";
+import logo from "../styles/logo.jpg";
 
 const { Header } = Layout;
 
@@ -14,21 +15,11 @@ const Navbar = () => {
   };
 
   return (
-    <Header
-      style={{
-        background: "#fff",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "0 24px",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-        position: "sticky",
-        top: 0,
-        zIndex: 9
-
-      }}
-    >
-      <h2>Pulse HR</h2>
+    <Header className="navbar-header">
+      <div className="navbar-brand">
+        <img src={logo} alt="ASK EVA logo" className="navbar-logo" />
+        <h2>ASK EVA</h2>
+      </div>
 
       <Button danger icon={<LogoutOutlined />} onClick={logout}>
         Logout

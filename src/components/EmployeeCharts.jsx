@@ -37,8 +37,8 @@ const EmployeeCharts = ({ employees }) => {
   );
 
   return (
-    <Row gutter={16} style={{ marginTop: 20 }}>
-      <Col span={12}>
+    <Row gutter={16} className="charts-row">
+      <Col xs={24} lg={12}>
         <Card title="Department Wise">
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={deptData}>
@@ -51,7 +51,7 @@ const EmployeeCharts = ({ employees }) => {
         </Card>
       </Col>
 
-      <Col span={12}>
+      <Col xs={24} lg={12}>
         <Card title="Status Distribution">
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>

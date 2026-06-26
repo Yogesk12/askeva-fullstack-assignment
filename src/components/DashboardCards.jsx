@@ -22,7 +22,7 @@ const DashboardCards = ({ employees }) => {
   return (
     <Row gutter={16}>
       {cards.map((c) => (
-        <Col span={6} key={c.title}>
+        <Col xs={24} sm={12} lg={6} key={c.title}>
           <Card>
             <h3>{c.title}</h3>
             <h2>{c.value}</h2>

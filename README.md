@@ -1,70 +1,141 @@
-# Getting Started with Create React App
+# ASK EVA Employee Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based employee management dashboard built for the ASK EVA full-stack assessment. The application provides login/signup, protected dashboard access, employee CRUD operations, searchable/filterable employee records, and analytics charts powered by MockAPI data.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- User login and signup flow
+- Protected dashboard route using encrypted session token storage
+- Employee listing with latest records shown first
+- Add, edit, and delete employee records
+- Search employees by name or email
+- Filter employees by department and status
+- Dashboard summary cards for total employees, active employees, departments, and monthly joins
+- Department-wise bar chart and status distribution pie chart
+- Responsive UI built with Ant Design
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React 18
+- React Router
+- Ant Design
+- Axios
+- Recharts
+- CryptoJS
+- Day.js
+- MockAPI
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project Structure
 
-### `npm test`
+```text
+src/
+  api/
+    auth.js          # Login and employee fetch API helpers
+    employee.js      # Employee CRUD API helpers
+  components/
+    AnalyticsTab.jsx
+    DashboardCards.jsx
+    EmployeeCharts.jsx
+    EmployeeForm.jsx
+    EmployeeTab.jsx
+    Navbar.jsx
+    ProtectedRoute.jsx
+  context/
+    AuthContext.jsx  # Authentication state provider
+  pages/
+    Dashboard.jsx
+    Login.jsx
+    Signup.jsx
+  styles/
+    common.css
+  utils/
+    token.js         # Session token encryption/decryption helpers
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## API
 
-### `npm run build`
+The app uses MockAPI as the remote data source:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```text
+https://6819d8771ac115563506b0bc.mockapi.io/api/Employees
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Employee records use fields such as:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `EmployeeName`
+- `Email`
+- `Password`
+- `Department`
+- `Designation`
+- `Status`
+- `JoiningDate`
 
-### `npm run eject`
+## Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Prerequisites
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Node.js
+- npm
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Installation
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+npm install
+```
 
-## Learn More
+### Environment Variables
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Create a `.env` file in the project root:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```env
+REACT_APP_SESSION_SECRET=your_session_secret_here
+```
 
-### Code Splitting
+This value is used by CryptoJS to encrypt and decrypt the local session token.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Run Locally
 
-### Analyzing the Bundle Size
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Open:
 
-### Making a Progressive Web App
+```text
+http://localhost:3000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Build
 
-### Advanced Configuration
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Test
 
-### Deployment
+```bash
+npm test
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Routes
 
-### `npm run build` fails to minify
+| Route | Description |
+| --- | --- |
+| `/` | Login page |
+| `/login` | Login page |
+| `/signup` | New user signup |
+| `/dashboard` | Protected dashboard page |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Authentication Flow
+
+1. A user signs up or logs in with an email and password.
+2. The app validates credentials against the MockAPI employee resource.
+3. On success, a CryptoJS-encrypted session token is stored in `localStorage`.
+4. Protected routes decode the token before allowing dashboard access.
+5. Logout removes the token and redirects the user to the login page.
+
+## Notes
+
+- This project is a frontend assessment implementation using MockAPI instead of a custom backend server.
+- Since MockAPI is public for assessment/demo use, the authentication flow is suitable for demonstration and not production security.
+- Keep real secrets out of GitHub. Commit an `.env.example` file if you want to document environment variables without exposing values.
